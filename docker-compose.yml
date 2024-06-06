@@ -1,0 +1,61 @@
+
+version: "3.8"
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: contenedormysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: .KAIRa1014278938.
+      MYSQL_DATABASE: User
+    ports:
+       - "3307:3306"  
+    networks:
+      - integracion_continua   
+    volumes:
+       - mysql_data:/var/lib/mysql
+
+  spring-app2:
+    build:
+      context: ./backend/crud-application    
+      dockerfile: Dockerfile
+    container_name: contenedorbackend
+    restart: always
+    ports:
+      - "8081:8081"
+  
+    environment:
+      SPRING_DATA_SOURCE_USERNAME: root
+      SPRING_DATA_SOURCE_PASSWORD: .KAIRa1014278938.
+      SPRING_DATA_SOURCE_URL: jdbc:mysql://mysql:3306/User
+      JAVA_HOME: /usr/local/openjdk-17
+      JAVA_VERSION: 17.0.1
+    working_dir: /app
+    command: ["java", "-jar", "crud-application.jar"]
+    depends_on:
+      - mysql
+    networks:
+      - integracion_continua
+
+
+  frontend:
+    build:      
+      context: ./frontend/crudfront
+      dockerfile: Dockerfile
+    container_name: contenedorfrontend  
+    ports:
+      - "3001:3001"
+    environment:
+      - REACT_APP_BACKEND_URL=http://spring-app2:8081
+    networks:
+      - integracion_continua
+
+networks:
+  integracion_continua:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    

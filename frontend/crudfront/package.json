@@ -15,14 +15,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    
     "start": "NODE_OPTIONS=\"--dns-result-order=ipv4first\" PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://containerbackend:8081",
-    "eslintConfig": {
+  "proxy": "http://contenedorbackend:8081",
+  "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
