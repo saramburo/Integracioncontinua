@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddUser from "./users/AddUser";
 import EditUser from "./users/EditUser";
 import ViewUser from "./users/ViewUser";
+import Footer from "./layout/Footer";
 
 function App() {
   return (
@@ -14,12 +15,13 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route exact path="/Usuarios" element={<Usuarios/>} />
-          <Route exact path="/" element={<Home/>} />
+          <Route exact path="/Usuarios" element={<Usuarios />} />
+          <Route exact path="/" element={<Home />} />
           <Route exact path="/adduser" element={<AddUser />} />
           <Route exact path="/edituser/:id" element={<EditUser />} />
           <Route exact path="/viewuser/:id" element={<ViewUser />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
