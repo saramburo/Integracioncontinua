@@ -32,37 +32,8 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
-}
-.footer {
-  height: 200px;
-  width: 100vw;
-  background-color: #0d6efd;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-}
-
-.footer-link {
-  color: white;
-  font-size: 25px;
-  width: 350px;
-  text-decoration: none;
-}
-.footer-link:hover {
-  color: yellow;
-  font-size: 25px;
-  width: 350px;
-  text-decoration: none;
-}
-
-.footer-option {
-  height: 40px;
-  width: 350px;
-  margin: 20px 50px;
 }

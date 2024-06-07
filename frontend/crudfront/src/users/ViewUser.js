@@ -21,32 +21,32 @@ export default function ViewUser() {
     };
 
   return (
-    <div className="container">
-      <div className="row">
+    <div className="container py-5">
+      <div className="row py-5">
         <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-          <h2 className="text-center m-4">User Details</h2>
+          <h2 className="text-center m-4">Detalle del usuario</h2>
 
           <div className="card">
             <div className="card-header">
-              Details of user id : {user.id}
+              ID : {user.id}
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
-                  <b>Name:</b>
+                  <b>Nombre: </b>
                   {user.name}
                 </li>
                 <li className="list-group-item">
-                  <b>UserName:</b>
+                  <b>Usuario: </b>
                   {user.username}
                 </li>
                 <li className="list-group-item">
-                  <b>Email:</b>
+                  <b>Correo: </b>
                   {user.email}
                 </li>
               </ul>
             </div>
           </div>
           <Link className="btn btn-primary my-2" to={"/Usuarios"}>
-            Back to Management
+            Volver
           </Link>
         </div>
       </div>
