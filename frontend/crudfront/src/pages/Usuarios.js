@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Modal } from 'bootstrap';
+import MyModal from '../components/Modal';
 
 export function Home() {
   const [users, setUsers] = useState([]);
-
+  const [userId, setUserId] = useState("");
   const { id } = useParams();
 
   useEffect(() => {
@@ -30,9 +32,18 @@ export function Home() {
     }
   };
 
+  const [modalOptions, setModalOptions] = useState({});
+
+  const showModal = (idUser) => {
+    setUserId(idUser)
+    const myModalElement = document.getElementById('myModal');
+    const myModal = new Modal(myModalElement, modalOptions);
+    myModal.show();
+  };
+
   return (
-    <div className="container">
-      <div className="py-4">
+    <div className="container py-5">
+      <div className="py-5">
         <table className="table border shadow">
           <thead>
             <tr>          
@@ -58,19 +69,16 @@ export function Home() {
                     className="btn btn-primary mx-2"
                     to={`/viewuser/${user.id}`}
                   >
-                    View
+                    Ver
                   </Link>
                   <Link
                     className="btn btn-outline-primary mx-2"
                     to={`/edituser/${user.id}`}
                   >
-                    Edit
+                    Editar
                   </Link>
-                  <button
-                    className="btn btn-danger mx-2"
-                    onClick={() => deleteUser(user.id)}
-                  >
-                    Delete
+                    <button type="button" className="btn btn-danger mx-2" onClick={() => showModal(user.id)}>
+                    Eliminar
                   </button>
                 </td>
               </tr>
@@ -79,6 +87,7 @@ export function Home() {
         </table>
 
       </div>
+      <MyModal options={modalOptions} title="¿Desea Eliminar?" textBody="Esta acción no se puede deshacer." buttonClass="btn-danger" textFunction="Eliminar" onSubmit={() => deleteUser(userId)} />
     </div>
   );
   

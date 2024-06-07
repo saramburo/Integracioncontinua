@@ -1,6 +1,8 @@
 import axios from "axios";
+import { Modal } from "bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import MyModal from '../components/Modal';
 
 export default function EditUser() {
   let navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function EditUser() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`/user/${id}`, user);
-    navigate("/");
+    navigate("/Usuarios");
   };
 
   const loadUser = async () => {
@@ -34,21 +36,29 @@ export default function EditUser() {
     setUser(result.data);
   };
 
+  const [modalOptions, setModalOptions] = useState({});
+
+  const showModal = () => {
+    const myModalElement = document.getElementById('myModal');
+    const myModal = new Modal(myModalElement, modalOptions);
+    myModal.show();
+  };
+
   return (
-    <div className="container">
-      <div className="row">
+    <div className="container py-5">
+      <div className="row py-5">
         <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-          <h2 className="text-center m-4">Edit User</h2>
+          <h2 className="text-center m-4">Editar Usuario</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="mb-3">
               <label htmlFor="Name" className="form-label">
-                Name
+                Nombre
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter your name"
+                placeholder="Ingrese su nombre"
                 name="name"
                 value={name}
                 onChange={(e) => onInputChange(e)}
@@ -56,12 +66,12 @@ export default function EditUser() {
             </div>
             <div className="mb-3">
               <label htmlFor="Username" className="form-label">
-                Username
+                Usuario
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter your username"
+                placeholder="Ingrese su usuario"
                 name="username"
                 value={username}
                 onChange={(e) => onInputChange(e)}
@@ -69,26 +79,27 @@ export default function EditUser() {
             </div>
             <div className="mb-3">
               <label htmlFor="Email" className="form-label">
-                E-mail
+                Correo
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter your e-mail address"
+                placeholder="Ingrese su correo"
                 name="email"
                 value={email}
                 onChange={(e) => onInputChange(e)}
               />
             </div>
-            <button type="submit" className="btn btn-outline-primary">
-              Submit
-            </button>
             <Link className="btn btn-outline-danger mx-2" to="/Usuarios">
-              Cancel
+              Cancelar
             </Link>
+            <button type="button" className="btn btn-outline-primary" onClick={showModal}>
+              Guardar
+            </button>
           </form>
         </div>
       </div>
+      <MyModal options={modalOptions} title="¿Desea Guardar?" textBody="Recuerde verificar los datos antes de guardar." buttonClass="btn-success" textFunction="Guardar" onSubmit={(e) => onSubmit(e)} />
     </div>
   );
 }

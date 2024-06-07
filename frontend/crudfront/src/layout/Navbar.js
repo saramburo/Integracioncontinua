@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed fixed-top">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Integracion Continua Grupo 16 [B01]
@@ -22,13 +22,13 @@ export default function Navbar() {
           </button>
           <div className="d-flex">
           <Link className="btn btn-outline-light me-2" to="/adduser">
-            Add User
+            Agregar Usuario
           </Link>
           <Link to="/usuarios" className="btn btn-outline-light me-2">
-          User Management
+          Administrar Usuarios
         </Link>
         <Link to="/" className="btn btn-outline-light me-2 ">
-          Home
+          Inicio
         </Link>
         </div>
 

@@ -1,0 +1,16 @@
+#Comandos usados para crear archivo frontend
+
+$docker build . -t "frontend"
+
+
+#Comandos usados para crear archivo backend
+
+$docker build . -t "frontend"
+
+#comandos para correr los contenedores
+
+frontend: $docker container run -d -p 3000:3000 --name cifrontend frontend
+backend: $docker container run -d -p 6060:6060 --name cibackend backtend
+
+#Correr docker-compose.yml del directorio raiz
+docker-compose up --build

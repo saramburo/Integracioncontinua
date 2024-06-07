@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Inicio() {
   return (
-    <div className="container text-center" >
+    <div className="container text-center d-inline" >
       <div className="py-4">
         <h1 className="py-4">La plataforma creada para una nueva forma de trabajar</h1>
         <p className="py-4" style={{ fontFamily: 'Arial, sans-serif', fontSize: '20px', color: '#333' }}>
