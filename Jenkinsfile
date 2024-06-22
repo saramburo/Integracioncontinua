@@ -19,7 +19,7 @@ pipeline {
                 stage('Build Frontend') {
                     steps {
                         script {
-                            docker.build('cifrontendfinal', './frontend/crudfront')
+                            docker.build('cifrontendfinal', "./frontend/crudfront")
                         }
                     }
                 }
