@@ -1,52 +1,47 @@
 pipeline {
     agent any
-    environment {
-        GIT_CREDENTIALS_ID = 'github-credentials-id'
-        IMAGE_NAME = 'cifrontendfinal'
-        CONTAINER_NAME = 'cifrontendfinal'
+    parameters {
+        choice(name: 'PIPELINE_STAGE', choices: ['build', 'deploy'], description: 'Seleccione el pipeline a ejecutar')
     }
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/saramburo/Integracioncontinua.git', branch: 'master', credentialsId: "${env.GIT_CREDENTIALS_ID}"
+                git 'https://github.com/Steeevenn/Integracioncontinua.git'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Construir la imagen Docker usando el Dockerfile en el subdirectorio específico
-                    docker.build("${env.IMAGE_NAME}:${env.BUILD_ID}", "frontend/crudfront")
+        stage('Build Pipeline') {
+            when {
+                expression { params.PIPELINE_STAGE == 'build' }
+            }
+            stages {
+              
+               
+                stage('Build Frontend') {
+                    steps {
+                        script {
+                            docker.build('cifrontendfinal', './frontend/crudfront')
+                        }
+                    }
                 }
-            }
-        }
-        stage('Test') {
-            steps {
-                script {
-                    docker.image("${env.IMAGE_NAME}:${env.BUILD_ID}").inside {
-                        dir('frontend/crudfront') {
-                            sh 'npm install'
-                            sh 'npm test'
+                stage('Test Frontend') {
+                    steps {
+                        script {
+                            docker.image('cifrontendfinal').inside {
+                                sh 'npm test'
+                            }
                         }
                     }
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy Pipeline') {
+            when {
+                expression { params.PIPELINE_STAGE == 'deploy' }
+            }
             steps {
                 script {
-                    // Detener y eliminar el contenedor existente
-                    sh """
-                    if [ \$(docker ps -q -f name=${env.CONTAINER_NAME}) ]; then
-                        docker stop ${env.CONTAINER_NAME}
-                        docker rm ${env.CONTAINER_NAME}
-                    fi
-                    """
-                    // Desplegar un nuevo contenedor
-                    docker.run(
-                        image: "${env.IMAGE_NAME}:${env.BUILD_ID}",
-                        name: "${env.CONTAINER_NAME}",
-                        args: '-d -p 3000:3000'
-                    )
+                    sh 'docker-compose down'
+                    sh 'docker-compose up -d'
                 }
             }
         }
