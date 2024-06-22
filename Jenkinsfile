@@ -19,7 +19,7 @@ pipeline {
                 stage('Build Frontend') {
                     steps {
                         script {
-                            docker.build('cifrontendfinal', "C:\Users\sergi\OneDrive\Documentos\GitHub\Integracioncontinua\frontend\crudfront\Dockerfile")
+                            docker.build('cifrontendfinal', "C:\Users\sergi\OneDrive\Documentos\GitHub\Integracioncontinua\frontend\crudfront\")
                         }
                     }
                 }
