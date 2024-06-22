@@ -1,18 +1,28 @@
 pipeline {
-   agent {
-       docker {
-             image 'eclipse-temurin:17.0.9_9-jdk-jammy'
-             args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-       }
- }
- 
-   triggers { pollSCM 'H/2 * * * *' } // poll every 2 mins
- 
-   stages {
-       stage('Build and Test') {
-           steps {
-               sh './mvnw verify'
-           }
-       }
-   }
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Steeevenn/Integracioncontinua.git'
+            }
+        }
+
+        stage('Test Docker Commands') {
+            steps {
+                script {
+                    // Verificar la versión de Docker
+                    sh 'docker --version'
+
+                    // Mostrar información detallada de Docker
+                    sh 'docker info'
+                    
+                    // Ejecutar otro comando de Docker para probar, según tus necesidades
+                    sh 'docker ps'
+                }
+            }
+        }
+
+        // Añade otros stages según tu configuración actual
+    }
 }
