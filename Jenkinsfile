@@ -1,28 +1,47 @@
 pipeline {
     agent any
-
+    parameters {
+        choice(name: 'PIPELINE_STAGE', choices: ['build', 'deploy'], description: 'Seleccione el pipeline a ejecutar')
+    }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/saramburo/Integracioncontinua.git'
+                git 'https://github.com/Steeevenn/Integracioncontinua.git'
             }
         }
+        stage('Build Pipeline') {
+            when {
+                expression { params.PIPELINE_STAGE == 'build' }
+            }
+            stages {
 
-        stage('Test Docker Commands') {
-            steps {
-                script {
-                    // Verificar la versión de Docker
-                    sh 'docker --version'
 
-                    // Mostrar información detallada de Docker
-                    sh 'docker info'
-                    
-                    // Ejecutar otro comando de Docker para probar, según tus necesidades
-                    sh 'docker ps'
+                stage('Build Frontend') {
+                    steps {
+                        script {
+                            docker.build('cifrontendfinal', './frontend/crudfront')
+                        }
+                    }
+                }
+                stage('Test Frontend') {
+                    steps {
+                        script {
+                            docker.image('cifrontendfinal').inside {
+                                sh 'npm test'
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        // Añade otros stages según tu configuración actual
-    }
-}
+        stage('Deploy Pipeline') {
+            when {
+                expression { params.PIPELINE_STAGE == 'deploy' }
+            }
+            steps {
+                script {
+                    sh 'docker-compose down'
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
