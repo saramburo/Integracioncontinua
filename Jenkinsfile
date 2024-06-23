@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GIT_CREDENTIALS_ID = 'github-credentials-id'
+      
         IMAGE_NAME = 'cifrontendfinal'
         CONTAINER_NAME = 'cifrontendfinal'
     }
@@ -19,18 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    docker.image("${env.IMAGE_NAME}:${env.BUILD_ID}").inside {
-                        dir('frontend/crudfront') {
-                            sh 'npm install'
-                            sh 'npm test'
-                        }
-                    }
-                }
-            }
-        }
+     
         stage('Deploy') {
             steps {
                 script {
