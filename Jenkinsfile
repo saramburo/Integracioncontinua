@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/saramburo/Integracioncontinua.git'}"
+                git 'https://github.com/saramburo/Integracioncontinua.git'}
             }
         }
         stage('Build Docker Image') {
