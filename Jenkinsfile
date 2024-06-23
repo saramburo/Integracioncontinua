@@ -45,7 +45,7 @@ pipeline {
                     docker.run(
                         image: "${env.IMAGE_NAME}:${env.BUILD_ID}",
                         name: "${env.CONTAINER_NAME}",
-                        args: '-d -p 3000:3000'
+                        args: '-d -p 3001:3001'
                     )
                 }
             }
