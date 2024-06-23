@@ -32,7 +32,7 @@ pipeline {
                     """
                     // Desplegar un nuevo contenedor
                     sh"""
-                    docker run -d -p 3000:3000 --name ${env.CONTAINER_NAME} ${env.IMAGE_NAME}:${env.BUILD_ID}
+                    docker run -d -p 3001:3001 --name ${env.CONTAINER_NAME} ${env.IMAGE_NAME}:${env.BUILD_ID}
                         """
                     
                 }
