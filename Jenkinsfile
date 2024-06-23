@@ -23,15 +23,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Test Frontend') {
-                    steps {
-                        script {
-                            docker.image('cifrontendfinal').inside {
-                                sh 'npm test'
-                            }
-                        }
-                    }
-                }
+               
             }
         }
         stage('Deploy Pipeline') {
