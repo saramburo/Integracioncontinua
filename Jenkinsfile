@@ -1,14 +1,14 @@
 pipeline {
     agent any
     environment {
-       
+        GIT_CREDENTIALS_ID = 'github-credentials-id'
         IMAGE_NAME = 'cifrontendfinal'
         CONTAINER_NAME = 'cifrontendfinal'
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/saramburo/Integracioncontinua.git'}
+                git  'https://github.com/saramburo/Integracioncontinua.git'
             }
         }
         stage('Build Docker Image') {
@@ -45,10 +45,11 @@ pipeline {
                     docker.run(
                         image: "${env.IMAGE_NAME}:${env.BUILD_ID}",
                         name: "${env.CONTAINER_NAME}",
-                        args: '-d -p 3001:3001'
+                        args: '-d -p 3000:3000'
                     )
                 }
             }
         }
     }
 }
+
