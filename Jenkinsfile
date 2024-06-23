@@ -1,39 +1,52 @@
 pipeline {
     agent any
-    parameters {
-        choice(name: 'PIPELINE_STAGE', choices: ['build', 'deploy'], description: 'Seleccione el pipeline a ejecutar')
+    environment {
+       
+        IMAGE_NAME = 'cifrontendfinal'
+        CONTAINER_NAME = 'cifrontendfinal'
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/saramburo/Integracioncontinua.git'
+                git 'https://github.com/saramburo/Integracioncontinua.git'}"
             }
         }
-        stage('Build Pipeline') {
-            when {
-                expression { params.PIPELINE_STAGE == 'build' }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construir la imagen Docker usando el Dockerfile en el subdirectorio específico
+                    docker.build("${env.IMAGE_NAME}:${env.BUILD_ID}", "frontend/crudfront")
+                }
             }
-            stages {
-
-
-                stage('Build Frontend') {
-                    steps {
-                        script {
-                            docker.build('cifrontendfinal', './frontend/crudfront')
+        }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image("${env.IMAGE_NAME}:${env.BUILD_ID}").inside {
+                        dir('frontend/crudfront') {
+                            sh 'npm install'
+                            sh 'npm test'
                         }
                     }
                 }
-               
             }
         }
-        stage('Deploy Pipeline') {
-            when {
-                expression { params.PIPELINE_STAGE == 'deploy' }
-            }
+        stage('Deploy') {
             steps {
                 script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose up -d'
+                    // Detener y eliminar el contenedor existente
+                    sh """
+                    if [ \$(docker ps -q -f name=${env.CONTAINER_NAME}) ]; then
+                        docker stop ${env.CONTAINER_NAME}
+                        docker rm ${env.CONTAINER_NAME}
+                    fi
+                    """
+                    // Desplegar un nuevo contenedor
+                    docker.run(
+                        image: "${env.IMAGE_NAME}:${env.BUILD_ID}",
+                        name: "${env.CONTAINER_NAME}",
+                        args: '-d -p 3000:3000'
+                    )
                 }
             }
         }
