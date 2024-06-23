@@ -5,7 +5,7 @@ FROM node:14
 WORKDIR /app
 
 # Copiamos solo el archivo package.json y package-lock.json (si existe)
-COPY package.json ./
+COPY package*.json ./
 
 # Instalamos las dependencias con npm para crear Node Modules
 RUN npm install
