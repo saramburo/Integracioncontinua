@@ -31,11 +31,10 @@ pipeline {
                     fi
                     """
                     // Desplegar un nuevo contenedor
-                    docker.run(
-                        image: "${env.IMAGE_NAME}:${env.BUILD_ID}",
-                        name: "${env.CONTAINER_NAME}",
-                        args: '-d -p 3001:3001'
-                    )
+                    sh"""
+                    docker run -d -p 3000:3000 --name ${env.CONTAINER_NAME} ${env.IMAGE_NAME}:${env.BUILD_ID}
+                        """
+                    
                 }
             }
         }
