@@ -15,7 +15,7 @@ export default function Contact() {
             }}
           >
             Dinos qué piensas! Escríbenos y danos tu opinión.
-            Test Jenkins
+            <br/>Test Jenkins v2
           </p>
         </div>
         <form className="w-full max-w-sm">
